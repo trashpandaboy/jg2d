@@ -1,4 +1,6 @@
-package com.trashpandainteractive.jg2d;
+package com.trashpandainteractive.jg2d.Components;
+
+import com.trashpandainteractive.jg2d.Core.Component;
 
 public class Position extends Component{
 
