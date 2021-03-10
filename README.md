@@ -1,4 +1,4 @@
-![Alt text](/repo/jg2d.png?raw=true "JG2D")
+![Alt text](/jg2d.png?raw=true "JG2D")
 
 
 Refresh the Documentation
