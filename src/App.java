@@ -1,4 +1,4 @@
-import com.trashpandainteractive.jg2d.GameObject;
+import com.trashpandainteractive.jg2d.Objects.GameObject;
 import com.trashpandainteractive.jg2d.Components.BoxCollider;
 import com.trashpandainteractive.jg2d.Components.Position;
 

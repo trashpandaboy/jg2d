@@ -1,10 +1,14 @@
-package com.trashpandainteractive.jg2d;
+package com.trashpandainteractive.jg2d.Objects;
 
 import com.trashpandainteractive.jg2d.Core.*;
 import java.util.ArrayList;
 
 public abstract class GameObject {
-    public ArrayList<Component> _components;
+    ArrayList<Component> _components;
+
+    public ArrayList<Component> get_components() {
+        return _components;
+    }
 
     public GameObject() {
         _components = new ArrayList<Component>();
@@ -30,5 +34,11 @@ public abstract class GameObject {
     @Override
     public String toString() {
         return "Components: " + _components.size();
+    }
+
+    public void Update() {
+        for (Component component : _components) {
+            component.Update();
+        }
     }
 }
