@@ -1,7 +1,9 @@
 package com.trashpandainteractive.jg2d.Objects;
 
 import com.trashpandainteractive.jg2d.Core.*;
+import com.trashpandainteractive.jg2d.Components.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public abstract class GameObject {
     ArrayList<Component> _components;
@@ -29,6 +31,30 @@ public abstract class GameObject {
         } else {
             System.out.println("Can't add component: " + c.getClass().getSimpleName());
         }
+    }
+
+    public Sprite GetSprite() {
+        Sprite spriteReturn = null;
+
+        // try to get SpriteRenderer component
+        SpriteRenderer spriteRenderedTemp = (SpriteRenderer) _components.stream()
+                .filter(c -> c.getClass().equals(SpriteRenderer.class)).collect(Collectors.toList()).get(0);
+
+        if (spriteRenderedTemp != null) {
+            spriteReturn = spriteRenderedTemp.GetSpriteToRender();
+        }
+
+        return spriteReturn;
+    }
+
+    public Position GetPosition() {
+        Position positionReturn = null;
+
+        // try to get Position component
+        positionReturn = (Position) _components.stream().filter(c -> c.getClass().equals(Position.class))
+                .collect(Collectors.toList()).get(0);
+
+        return positionReturn;
     }
 
     @Override
