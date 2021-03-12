@@ -15,6 +15,14 @@ public abstract class GameObject {
     public GameObject() {
         _components = new ArrayList<Component>();
     }
+    
+    public GameObject(Component[] componentOfObject) {
+        _components = new ArrayList<Component>();
+
+        for (Component component : componentOfObject) {
+            _components.add(component);
+        }
+    }
 
     public void AddComponent(Component c) {
         boolean canAdd = true;

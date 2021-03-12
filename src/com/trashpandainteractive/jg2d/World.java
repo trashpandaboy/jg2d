@@ -17,6 +17,7 @@ public class World {
 
     public World(BufferStrategy strategy) {
         _strategy = strategy;
+        _gameObjects = new ArrayList<GameObject>();
     }
 
     public World() {

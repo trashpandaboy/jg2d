@@ -2,14 +2,14 @@ package com.trashpandainteractive.jg2d.Components;
 
 import com.trashpandainteractive.jg2d.Core.Component;
 
-public class Position extends Component{
+public class Position extends Component {
 
-    int _x,_y, _z;
+    int _x, _y, _z;
 
     public void set_x(int _x) {
         this._x = _x;
     }
-    
+
     public void set_y(int _y) {
         this._y = _y;
     }
@@ -30,15 +30,13 @@ public class Position extends Component{
         return _z;
     }
 
-    public Position(int x, int y)
-    {
+    public Position(int x, int y) {
         _x = x;
         _y = y;
         _z = 0;
     }
 
-    public Position(int x, int y, int z)
-    {
+    public Position(int x, int y, int z) {
         _x = x;
         _y = y;
         _z = z;
@@ -47,11 +45,11 @@ public class Position extends Component{
     @Override
     public void Update() {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     @Override
     public String toString() {
-        return "X: " + _x + " | Y: " + _y + " | Z: " + _z; 
+        return "X: " + _x + " | Y: " + _y + " | Z: " + _z;
     }
 }

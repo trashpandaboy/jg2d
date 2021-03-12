@@ -2,8 +2,7 @@ package com.trashpandainteractive.jg2d.Components;
 
 import com.trashpandainteractive.jg2d.Core.Component;
 
-public class BoxCollider extends Component
-{
+public class BoxCollider extends Component {
     int _x, _y, _z, _width, _height;
     boolean _colliding;
 
@@ -51,14 +50,11 @@ public class BoxCollider extends Component
         this._colliding = _colliding;
     }
 
-    public boolean get_colliding()
-    {
+    public boolean get_colliding() {
         return _colliding;
     }
 
-
-    public BoxCollider(int x, int y,int width,int height)
-    {
+    public BoxCollider(int x, int y, int width, int height) {
         _x = x;
         _y = y;
         _z = 0;
@@ -66,20 +62,19 @@ public class BoxCollider extends Component
         _height = height;
     }
 
-    public BoxCollider(int x, int y, int z,int width,int height)
-    {
+    public BoxCollider(int x, int y, int z, int width, int height) {
         _x = x;
         _y = y;
         _z = z;
         _width = width;
         _height = height;
-    }    
+    }
 
     @Override
     public void Update() {
-        //Reset colliding flag
+        // Reset colliding flag
         _colliding = false;
-        
+
     }
-    
+
 }
