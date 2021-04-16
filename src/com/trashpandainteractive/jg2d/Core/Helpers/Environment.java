@@ -1,5 +1,8 @@
 package com.trashpandainteractive.jg2d.Core.Helpers;
 
+import java.util.List;
+
 public class Environment {
-    //Statics values here   
+    
+	public static List<Integer> KEYBOARDHANDLER_PRESSEDKEYS;
 }

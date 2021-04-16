@@ -10,6 +10,7 @@ import com.trashpandainteractive.jg2d.Components.Position;
 import com.trashpandainteractive.jg2d.Components.SpriteRenderer;
 import com.trashpandainteractive.jg2d.Core.Component;
 import com.trashpandainteractive.jg2d.Core.Sprite;
+import com.trashpandainteractive.jg2d.Core.Helpers.KeyBoardHandler;
 
 public class Example {
     public static void main(String[] args) throws Exception {
@@ -35,6 +36,9 @@ public class Example {
         }
         World gameWorld = new World(gameWindow.get_BufferStrategy());
         gameWorld.AddGameObject(pg);
-        gameWorld.Update();
+        gameWorld.start();
+        
+        KeyBoardHandler keyHandler = new KeyBoardHandler();
+        keyHandler.start();
     }
 }

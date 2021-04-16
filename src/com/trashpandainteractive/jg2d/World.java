@@ -5,15 +5,15 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 import com.trashpandainteractive.jg2d.Objects.GameObject;
+import com.trashpandainteractive.jg2d.Objects.GameWindowObject;
 
-public class World {
-
+public class World extends Thread {
     BufferStrategy _strategy;
     Graphics2D gameFrame = null;
     RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-    ArrayList<GameObject> _gameObjects;
+    public static ArrayList<GameObject> _gameObjects;
 
     public World(BufferStrategy strategy) {
         _strategy = strategy;
@@ -32,7 +32,8 @@ public class World {
         return _gameObjects;
     }
 
-    public void Update() {
+    @Override
+    public void run() {
         try {
             while (true) {
                 UpdateGameobjects();
@@ -66,6 +67,8 @@ public class World {
 
     private void drawFrame()
     {
+        gameFrame.fillRect(0,0, GameWindowObject._displayMode.getWidth(), GameWindowObject._displayMode.getHeight());
+
         for (GameObject gameObject : _gameObjects) {
             gameFrame.drawImage(gameObject.GetSprite().get_spriteImage(), null, gameObject.GetPosition().get_x(), gameObject.GetPosition().get_y());
         }

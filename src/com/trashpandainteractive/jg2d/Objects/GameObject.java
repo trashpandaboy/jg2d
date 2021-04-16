@@ -15,7 +15,7 @@ public abstract class GameObject {
     public GameObject() {
         _components = new ArrayList<Component>();
     }
-    
+
     public GameObject(Component[] componentOfObject) {
         _components = new ArrayList<Component>();
 
@@ -63,6 +63,22 @@ public abstract class GameObject {
                 .collect(Collectors.toList()).get(0);
 
         return positionReturn;
+    }
+
+    public void moveRight() {
+        GetPosition().set_x(GetPosition().get_x() + 1);
+    }
+
+    public void moveLeft() {
+        GetPosition().set_x(GetPosition().get_x() - 1);
+    }
+
+    public void moveUp() {
+        GetPosition().set_y(GetPosition().get_y() - 1);
+    }
+
+    public void moveDown() {
+        GetPosition().set_y(GetPosition().get_y() + 1);
     }
 
     @Override

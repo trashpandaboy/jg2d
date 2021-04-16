@@ -21,6 +21,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.trashpandainteractive.jg2d.Core.Helpers.Environment;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,7 +33,7 @@ public class GameWindowObject {
     public boolean isReady = false;
 
     List<DisplayMode> displayModes;
-    DisplayMode _displayMode;
+    public static DisplayMode _displayMode;
     GraphicsDevice _graphicsDevice;
     GraphicsEnvironment _graphicsEnvironment;
     ArrayList<String> resolutionsStrings;
@@ -58,26 +60,37 @@ public class GameWindowObject {
         _gameWindow.setLocation((_graphicsEnvironment.getMaximumWindowBounds().width - _displayMode.getWidth()) / 2,
                 (_graphicsEnvironment.getMaximumWindowBounds().height - _displayMode.getHeight()) / 2);
         _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
+
+		Environment.KEYBOARDHANDLER_PRESSEDKEYS = new ArrayList<Integer>();
         _gameWindow.addKeyListener(new KeyListener() {
             @Override
-            public void keyPressed(KeyEvent arg0) {
-                if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            public void keyPressed(KeyEvent key) {
+                if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.exit(0);
                 }
+                
+                if (!Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(key.getKeyCode())) {
+					Environment.KEYBOARDHANDLER_PRESSEDKEYS.add(key.getKeyCode());
+				}
             }
 
             @Override
-            public void keyReleased(KeyEvent arg0) {
-
+            public void keyReleased(KeyEvent key) {
+                for (int i = 0; i < Environment.KEYBOARDHANDLER_PRESSEDKEYS.size(); i++) {
+					if (Environment.KEYBOARDHANDLER_PRESSEDKEYS.get(i).equals(key.getKeyCode())) {
+						Environment.KEYBOARDHANDLER_PRESSEDKEYS.remove(i);
+					}
+				}
             }
 
             @Override
-            public void keyTyped(KeyEvent arg0) {
+            public void keyTyped(KeyEvent key) {
 
             }
         });
 
         if (_fullScreen && _graphicsDevice.isFullScreenSupported()) {
+            System.out.println("Full screen supported!");
             _gameWindow.setUndecorated(true);
             _gameWindow.setResizable(false);
             _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
