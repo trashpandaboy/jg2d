@@ -72,8 +72,17 @@ public abstract class GameObject {
     }
 
     public void Update() {
-        for (Component component : _components) {
-            component.Update();
+        if(CanUpdate())
+        {
+            for (Component component : _components) {
+                component.Update();
+            }
         }
+    }
+
+    public Boolean CanUpdate()
+    {
+        //TODO is it needed?
+        return true;    
     }
 }

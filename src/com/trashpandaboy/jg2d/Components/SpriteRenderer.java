@@ -21,7 +21,8 @@ public class SpriteRenderer extends Component {
 
             _spriteList.add(sprite);
         }
-        _loopTroughList = true;
+        if(_spriteList.size() > 1)  //cycle through sprite list only if there are more than 1 sprite
+            _loopTroughList = true;
     }
 
     public Sprite GetSpriteToRender()
@@ -31,14 +32,11 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void Update() {
-        if (_loopTroughList) { //cycle through sprite list
-            if(_spriteList.size() > 1)
-            {
-                if (actualSpriteToRender < (_spriteList.size() - 1)) {
-                    actualSpriteToRender++;
-                } else {
-                    actualSpriteToRender = 0;
-                }
+        if (_loopTroughList) { 
+            if (actualSpriteToRender < (_spriteList.size() - 1)) {
+                actualSpriteToRender++;
+            } else {
+                actualSpriteToRender = 0;
             }
         }
     }

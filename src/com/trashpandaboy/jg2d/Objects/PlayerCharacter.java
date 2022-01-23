@@ -7,7 +7,7 @@ import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 
 public class PlayerCharacter extends GameObject {
     
-    public int moveOffset = 10;
+    public int moveOffset = 5;
 
     public PlayerCharacter(Component[] componentOfObject){
         super(componentOfObject);
@@ -16,8 +16,11 @@ public class PlayerCharacter extends GameObject {
     @Override
     public void Update()
     {
-        HandleKeys();
-        super.Update();
+        if(CanUpdate())
+        {
+            HandleKeys();
+            super.Update();
+        }
     }
 
     public void moveRight() {
@@ -39,20 +42,20 @@ public class PlayerCharacter extends GameObject {
     public void HandleKeys()
     {
         try {
-            if (Environment.KEYBOARDHANDLER_PRESSEDKEYS.size() > 0) {
-                if(Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(KeyEvent.VK_LEFT))
+            if (Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.size() > 0) {
+                if(Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.contains(KeyEvent.VK_LEFT))
                 {
                     moveLeft();
                 }
-                if(Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(KeyEvent.VK_RIGHT))
+                if(Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.contains(KeyEvent.VK_RIGHT))
                 {
                     moveRight();
                 }
-                if(Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(KeyEvent.VK_UP))
+                if(Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.contains(KeyEvent.VK_UP))
                 {
                     moveUp();
                 }
-                if(Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(KeyEvent.VK_DOWN))
+                if(Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.contains(KeyEvent.VK_DOWN))
                 {
                     moveDown();
                 }

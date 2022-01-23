@@ -61,7 +61,7 @@ public class GameWindowObject {
                 (_graphicsEnvironment.getMaximumWindowBounds().height - _displayMode.getHeight()) / 2);
         _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
 
-		Environment.KEYBOARDHANDLER_PRESSEDKEYS = new ArrayList<Integer>();
+		Environment.KEYBOARDHANDLER_CONTINUOUSKEYS = new ArrayList<Integer>();
         _gameWindow.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent key) {
@@ -69,16 +69,16 @@ public class GameWindowObject {
                     System.exit(0);
                 }
                 
-                if (!Environment.KEYBOARDHANDLER_PRESSEDKEYS.contains(key.getKeyCode())) {
-					Environment.KEYBOARDHANDLER_PRESSEDKEYS.add(key.getKeyCode());
+                if (!Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.contains(key.getKeyCode())) {
+					Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.add(key.getKeyCode());
 				}
             }
 
             @Override
             public void keyReleased(KeyEvent key) {
-                for (int i = 0; i < Environment.KEYBOARDHANDLER_PRESSEDKEYS.size(); i++) {
-					if (Environment.KEYBOARDHANDLER_PRESSEDKEYS.get(i).equals(key.getKeyCode())) {
-						Environment.KEYBOARDHANDLER_PRESSEDKEYS.remove(i);
+                for (int i = 0; i < Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.size(); i++) {
+					if (Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.get(i).equals(key.getKeyCode())) {
+						Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.remove(i);
 					}
 				}
             }
@@ -141,6 +141,7 @@ public class GameWindowObject {
 
                 _fullScreen = _fullScreenCheckbox.isSelected();
                 _displayMode = displayModes.get(selIndex);
+                Environment.CURRENT_DISPLAYMODE = _displayMode;
 
                 System.out.println("Selected DisplayMode: " + _displayMode.toString());
                 System.out.println("Fullscreen: " + _fullScreen);
