@@ -7,6 +7,7 @@ import com.trashpandaboy.jg2d.Components.Position;
 import com.trashpandaboy.jg2d.Components.SpriteRenderer;
 import com.trashpandaboy.jg2d.Core.Component;
 import com.trashpandaboy.jg2d.Core.Sprite;
+import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 import com.trashpandaboy.jg2d.Core.Helpers.KeyBoardHandler;
 import com.trashpandaboy.jg2d.Objects.GameObject;
 import com.trashpandaboy.jg2d.Objects.GameWindowObject;
@@ -28,11 +29,11 @@ public class Example {
         GameWindowObject gameWindow = new GameWindowObject();
         gameWindow.show();
 
-        while(!gameWindow.isReady)
-        {
+        do{
             Thread.sleep(10);
-        }
-        World gameWorld = new World(gameWindow.get_BufferStrategy());
+        } while(!gameWindow.isReady);
+
+        World gameWorld = new World(Environment.CURRENT_GAME_WINDOW.getBufferStrategy());
         gameWorld.AddGameObject(player);
         gameWorld.start();
         

@@ -46,8 +46,8 @@ public class KeyBoardHandler extends Thread {
             }
 
             try {
-                Thread.sleep(16);
-            } catch (InterruptedException e) {
+                // Thread.sleep(16);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

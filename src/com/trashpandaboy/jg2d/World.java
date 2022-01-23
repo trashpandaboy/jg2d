@@ -63,7 +63,7 @@ public class World extends Thread {
                     _strategy.show();
                 } while (_strategy.contentsLost());
                 
-                Thread.sleep(10);
+                // Thread.sleep(10);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +89,7 @@ public class World extends Thread {
 
     private void drawFrame()
     {
-        gameFrame.fillRect(0,0, GameWindowObject._displayMode.getWidth(), GameWindowObject._displayMode.getHeight());
+        gameFrame.fillRect(0,0, Environment.CURRENT_DISPLAYMODE.getWidth(), Environment.CURRENT_DISPLAYMODE.getHeight());
 
         for (GameObject gameObject : _gameObjects) {
             gameFrame.drawImage(gameObject.GetSprite().get_spriteImage(), null, gameObject.GetPosition().get_x(), gameObject.GetPosition().get_y());
@@ -100,10 +100,10 @@ public class World extends Thread {
     {
         if(showDebug)
         {
-            int baseY = Environment.CURRENT_DISPLAYMODE.getHeight() - 300;
+            int baseY = 50;
             //All the debug informations
             gameFrame.setColor(Color.GREEN);
-            gameFrame.drawString("FPS: " + String.format("%.2f", getFPS()), 5, baseY);
+            gameFrame.drawString("FPS: " + getFPS(), 5, baseY);
             gameFrame.drawString("RAM(MB): " + (((runtimeApp.totalMemory() - runtimeApp.freeMemory())/1024)/1024), 5, baseY + 20);
         }
     }

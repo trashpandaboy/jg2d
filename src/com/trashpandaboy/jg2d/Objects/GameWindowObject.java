@@ -20,6 +20,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 
@@ -42,7 +44,7 @@ public class GameWindowObject {
 
     // GameWindows
     JFrame _gameWindow;
-    BufferStrategy _strategy;
+    // BufferStrategy _strategy;
     boolean _fullScreen = false;
 
     // Settings
@@ -52,10 +54,18 @@ public class GameWindowObject {
     JCheckBox _fullScreenCheckbox;
 
     public GameWindowObject() {
+        try {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         init();
     }
 
     private void createGameWindow() {
+
         // _graphicsDevice = _graphicsEnvironment.getDefaultScreenDevice();
         _gameWindow = new JFrame(Environment.CURRENT_DISPLAY.getDefaultConfiguration());
 
@@ -154,8 +164,8 @@ public class GameWindowObject {
             }
         });
 
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
+        JButton playButton = new JButton("Play");
+        playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedResolutionIndex = _resolutionsListBox.getSelectedIndex();
                 int selectedDisplayIndex = _devicesListBox.getSelectedIndex();
@@ -179,7 +189,7 @@ public class GameWindowObject {
         buttonsPanel.add(Box.createHorizontalGlue());
         buttonsPanel.add(closeButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(saveButton);
+        buttonsPanel.add(playButton);
 
         _settingsFrame.add(settingsPanel);
         _settingsFrame.add(checkboxPanel);
@@ -225,7 +235,8 @@ public class GameWindowObject {
         createGameWindow();
         _gameWindow.setVisible(true);
         _gameWindow.createBufferStrategy(2);
-        _strategy = _gameWindow.getBufferStrategy();
+        Environment.CURRENT_GAME_WINDOW = _gameWindow;
+        // _strategy = _gameWindow.getBufferStrategy();
         isReady = true;
     }
 
@@ -251,8 +262,8 @@ public class GameWindowObject {
         showSettings();
     }
 
-    public BufferStrategy get_BufferStrategy() {
-        return _strategy;
-    }
+    // public BufferStrategy get_BufferStrategy() {
+    //     return _strategy;
+    // }
 
 }
