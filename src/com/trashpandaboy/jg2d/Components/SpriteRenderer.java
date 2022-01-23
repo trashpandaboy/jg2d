@@ -32,10 +32,13 @@ public class SpriteRenderer extends Component {
     @Override
     public void Update() {
         if (_loopTroughList) { //cycle through sprite list
-            if (actualSpriteToRender < (_spriteList.size() - 1)) {
-                actualSpriteToRender++;
-            } else {
-                actualSpriteToRender = 0;
+            if(_spriteList.size() > 1)
+            {
+                if (actualSpriteToRender < (_spriteList.size() - 1)) {
+                    actualSpriteToRender++;
+                } else {
+                    actualSpriteToRender = 0;
+                }
             }
         }
     }

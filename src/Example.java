@@ -10,6 +10,7 @@ import com.trashpandaboy.jg2d.Core.Sprite;
 import com.trashpandaboy.jg2d.Core.Helpers.KeyBoardHandler;
 import com.trashpandaboy.jg2d.Objects.GameObject;
 import com.trashpandaboy.jg2d.Objects.GameWindowObject;
+import com.trashpandaboy.jg2d.Objects.PlayerCharacter;
 
 public class Example {
     public static void main(String[] args) throws Exception {
@@ -19,12 +20,10 @@ public class Example {
         Sprite pgSprite = new Sprite(ImageIO.read(new File(imageDir, "tile_0024.png")), 16);
         SpriteRenderer pgRend = new SpriteRenderer(pgSprite);
         Position pgPos = new Position(50,50);
-        GameObject pg = new GameObject(new Component[] { pgRend, pgPos }){
-            
-        };
 
+        PlayerCharacter player = new PlayerCharacter(new Component[] { pgRend, pgPos });
         
-        System.out.println(pg.toString());
+        System.out.println(player.toString());
 
         GameWindowObject gameWindow = new GameWindowObject();
         gameWindow.show();
@@ -34,7 +33,7 @@ public class Example {
             Thread.sleep(10);
         }
         World gameWorld = new World(gameWindow.get_BufferStrategy());
-        gameWorld.AddGameObject(pg);
+        gameWorld.AddGameObject(player);
         gameWorld.start();
         
         KeyBoardHandler keyHandler = new KeyBoardHandler();

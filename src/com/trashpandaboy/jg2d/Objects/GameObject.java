@@ -66,22 +66,6 @@ public abstract class GameObject {
         return positionReturn;
     }
 
-    public void moveRight() {
-        GetPosition().set_x(GetPosition().get_x() + 1);
-    }
-
-    public void moveLeft() {
-        GetPosition().set_x(GetPosition().get_x() - 1);
-    }
-
-    public void moveUp() {
-        GetPosition().set_y(GetPosition().get_y() - 1);
-    }
-
-    public void moveDown() {
-        GetPosition().set_y(GetPosition().get_y() + 1);
-    }
-
     @Override
     public String toString() {
         return "Components: " + _components.size();
