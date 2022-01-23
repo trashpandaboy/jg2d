@@ -1,4 +1,4 @@
-package com.trashpandainteractive.jg2d.Objects;
+package com.trashpandaboy.jg2d.Objects;
 
 public class CameraObject {
     int _x, _y, _width, _height;

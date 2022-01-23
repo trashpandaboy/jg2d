@@ -1,9 +1,9 @@
-package com.trashpandainteractive.jg2d.Components;
+package com.trashpandaboy.jg2d.Components;
 
 import java.util.ArrayList;
 
-import com.trashpandainteractive.jg2d.Core.Component;
-import com.trashpandainteractive.jg2d.Core.Sprite;
+import com.trashpandaboy.jg2d.Core.Component;
+import com.trashpandaboy.jg2d.Core.Sprite;
 
 public class SpriteRenderer extends Component {
 

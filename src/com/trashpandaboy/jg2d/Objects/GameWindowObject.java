@@ -1,4 +1,4 @@
-package com.trashpandainteractive.jg2d.Objects;
+package com.trashpandaboy.jg2d.Objects;
 
 import java.awt.Dimension;
 import java.awt.DisplayMode;
@@ -21,7 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.trashpandainteractive.jg2d.Core.Helpers.Environment;
+import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

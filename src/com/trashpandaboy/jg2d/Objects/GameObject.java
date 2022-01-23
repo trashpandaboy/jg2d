@@ -1,9 +1,10 @@
-package com.trashpandainteractive.jg2d.Objects;
+package com.trashpandaboy.jg2d.Objects;
 
-import com.trashpandainteractive.jg2d.Core.*;
-import com.trashpandainteractive.jg2d.Components.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import com.trashpandaboy.jg2d.Components.*;
+import com.trashpandaboy.jg2d.Core.*;
 
 public abstract class GameObject {
     ArrayList<Component> _components;

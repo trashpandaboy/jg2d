@@ -1,9 +1,8 @@
-package com.trashpandainteractive.jg2d.Core.Helpers;
+package com.trashpandaboy.jg2d.Core.Helpers;
 
 import java.awt.event.KeyEvent;
 
-import com.trashpandainteractive.jg2d.World;
-import com.trashpandainteractive.jg2d.Objects.GameObject;
+import com.trashpandaboy.jg2d.World;
 
 public class KeyBoardHandler extends Thread {
 

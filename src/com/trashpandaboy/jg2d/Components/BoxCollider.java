@@ -1,6 +1,6 @@
-package com.trashpandainteractive.jg2d.Components;
+package com.trashpandaboy.jg2d.Components;
 
-import com.trashpandainteractive.jg2d.Core.Component;
+import com.trashpandaboy.jg2d.Core.Component;
 
 public class BoxCollider extends Component {
     int _x, _y, _z, _width, _height;

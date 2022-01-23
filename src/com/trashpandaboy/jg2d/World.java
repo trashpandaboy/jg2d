@@ -1,11 +1,13 @@
-package com.trashpandainteractive.jg2d;
+package com.trashpandaboy.jg2d;
 
 import java.util.ArrayList;
+
+import com.trashpandaboy.jg2d.Objects.GameObject;
+import com.trashpandaboy.jg2d.Objects.GameWindowObject;
+
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-import com.trashpandainteractive.jg2d.Objects.GameObject;
-import com.trashpandainteractive.jg2d.Objects.GameWindowObject;
 
 public class World extends Thread {
     BufferStrategy _strategy;

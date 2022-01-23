@@ -1,16 +1,15 @@
-import com.trashpandainteractive.jg2d.Objects.GameObject;
-import com.trashpandainteractive.jg2d.Objects.GameWindowObject;
-
 import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import com.trashpandainteractive.jg2d.World;
-import com.trashpandainteractive.jg2d.Components.Position;
-import com.trashpandainteractive.jg2d.Components.SpriteRenderer;
-import com.trashpandainteractive.jg2d.Core.Component;
-import com.trashpandainteractive.jg2d.Core.Sprite;
-import com.trashpandainteractive.jg2d.Core.Helpers.KeyBoardHandler;
+import com.trashpandaboy.jg2d.World;
+import com.trashpandaboy.jg2d.Components.Position;
+import com.trashpandaboy.jg2d.Components.SpriteRenderer;
+import com.trashpandaboy.jg2d.Core.Component;
+import com.trashpandaboy.jg2d.Core.Sprite;
+import com.trashpandaboy.jg2d.Core.Helpers.KeyBoardHandler;
+import com.trashpandaboy.jg2d.Objects.GameObject;
+import com.trashpandaboy.jg2d.Objects.GameWindowObject;
 
 public class Example {
     public static void main(String[] args) throws Exception {

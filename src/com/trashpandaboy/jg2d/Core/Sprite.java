@@ -1,8 +1,8 @@
-package com.trashpandainteractive.jg2d.Core;
+package com.trashpandaboy.jg2d.Core;
 
 import java.awt.image.BufferedImage;
 
-import com.trashpandainteractive.jg2d.Core.Helpers.GraphicsUtils;
+import com.trashpandaboy.jg2d.Core.Helpers.GraphicsUtils;
 
 public class Sprite {
 

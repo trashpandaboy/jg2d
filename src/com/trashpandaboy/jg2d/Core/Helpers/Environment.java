@@ -1,4 +1,4 @@
-package com.trashpandainteractive.jg2d.Core.Helpers;
+package com.trashpandaboy.jg2d.Core.Helpers;
 
 import java.util.List;
 
