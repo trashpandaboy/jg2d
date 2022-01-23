@@ -105,10 +105,12 @@ public class World extends Thread {
             gameFrame.setColor(Color.GREEN);
             gameFrame.drawString("FPS: " + getFPS(), 5, baseY);
             gameFrame.drawString("RAM(MB): " + (((runtimeApp.totalMemory() - runtimeApp.freeMemory())/1024)/1024), 5, baseY + 20);
+            gameFrame.drawString("Display: " + Environment.CURRENT_DISPLAY.toString() ,5, baseY + 40);
+            gameFrame.drawString("Resolution: " + Environment.CURRENT_DISPLAYMODE.toString() ,5, baseY + 60);
         }
     }
 
-    private double getFPS() {
+    private int getFPS() {
         double FPS = 0;
         double newTime = System.currentTimeMillis();
         if(lastFPSUpdate + minFPSUpdate < newTime)
@@ -117,6 +119,6 @@ public class World extends Thread {
             lastFPSUpdate = newTime;
         }
             
-        return FPS;
+        return (int)FPS;
     }
 }

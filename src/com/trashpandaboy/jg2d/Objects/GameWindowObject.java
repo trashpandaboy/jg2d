@@ -1,5 +1,6 @@
 package com.trashpandaboy.jg2d.Objects;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.Frame;
@@ -11,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.Window;
 
+import javax.lang.model.util.ElementScanner14;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,6 +24,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -44,7 +49,6 @@ public class GameWindowObject {
 
     // GameWindows
     JFrame _gameWindow;
-    // BufferStrategy _strategy;
     boolean _fullScreen = false;
 
     // Settings
@@ -64,16 +68,17 @@ public class GameWindowObject {
         init();
     }
 
+    public void show()
+    {
+        showSettings();
+    }
+
+    //Create the main gameWindow
     private void createGameWindow() {
 
-        // _graphicsDevice = _graphicsEnvironment.getDefaultScreenDevice();
         _gameWindow = new JFrame(Environment.CURRENT_DISPLAY.getDefaultConfiguration());
 
         _gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // _gameWindow.setLocationRelativeTo(null);
-        // _gameWindow.setLocation((_graphicsEnvironment.getMaximumWindowBounds().width - _displayMode.getWidth()) / 2,
-        //         (_graphicsEnvironment.getMaximumWindowBounds().height - _displayMode.getHeight()) / 2);
-        _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
 
 		Environment.KEYBOARDHANDLER_CONTINUOUSKEYS = new ArrayList<Integer>();
         _gameWindow.addKeyListener(new KeyListener() {
@@ -104,17 +109,55 @@ public class GameWindowObject {
         });
 
         _gameWindow.setResizable(false);
-        _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+        Window mainWindow = SwingUtilities.getWindowAncestor(_gameWindow);
+
 
         if (_fullScreen && Environment.CURRENT_DISPLAY.isFullScreenSupported()) {
             System.out.println("Full screen supported!");
             _gameWindow.setUndecorated(true);
+            _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
+            
+            // Window main = windows.stream().filter((o)-> o.getClass() == _gameWindow.getClass()).toList().get(0);
+            // main.requestFocus();
+
             Environment.CURRENT_DISPLAY.setFullScreenWindow(_gameWindow);
-            Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
+            if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
+            {
+                System.out.println("Display Change supported!");
+                Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
+            }
+            else
+            {
+                System.out.println("Display Change NOT supported... set manual size");
+                _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
+            }
             _gameWindow.pack();
+        }
+        else if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
+        {
+            System.out.println("Display Change supported!");
+            Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
+        }
+        else
+        {
+            System.out.println("Display Change NOT supported... set manual size");
+            _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
         }
         
         _gameWindow.validate();
+        _gameWindow.setVisible(true);
+        _gameWindow.requestFocusInWindow();
+        if(_gameWindow.isAlwaysOnTopSupported())
+        {
+            System.out.println("Always on TOP supported!...Goin to set it up...");
+            _gameWindow.setAlwaysOnTop(true);
+            System.out.println("Always on top: " + _gameWindow.isAlwaysOnTop());
+        }        
+        else
+        {
+            System.out.println("Always on TOP NOT supported...");
+        }
     }
 
     private void createSettingsFrame(ArrayList<String> resolutionsStrings, ArrayList<String> devices) {
@@ -178,7 +221,9 @@ public class GameWindowObject {
                 System.out.println("Selected DisplayMode: " + _displayMode.toString());
                 System.out.println("Fullscreen: " + _fullScreen);
 
+                // _settingsFrame.dispatchEvent(new WindowEvent(_settingsFrame, WindowEvent.WINDOW_CLOSING));
                 _settingsFrame.dispose();
+                _settingsFrame.removeAll();
 
                 showGameWindow();
             }
@@ -232,8 +277,9 @@ public class GameWindowObject {
     }
 
     private void showGameWindow() {
+        _settingsFrame = null;
+        System.out.println("Settings frame null...");
         createGameWindow();
-        _gameWindow.setVisible(true);
         _gameWindow.createBufferStrategy(2);
         Environment.CURRENT_GAME_WINDOW = _gameWindow;
         // _strategy = _gameWindow.getBufferStrategy();
@@ -245,22 +291,20 @@ public class GameWindowObject {
         ArrayList<String> resToReturn = new ArrayList<String>();
 
         displayModes = Arrays.asList(device.getDisplayModes());
+        // displayModes = displayModes.stream().filter((o) -> o.() == true).toList();
+
         Collections.sort(displayModes, Comparator.comparing(DisplayMode::getWidth).thenComparing(DisplayMode::getHeight)
                 .thenComparing(DisplayMode::getBitDepth).thenComparing(DisplayMode::getRefreshRate));
 
         Collections.reverse(displayModes);
 
         for (DisplayMode mode : displayModes) {
-            resToReturn.add(mode.getWidth() + "x" + mode.getHeight() + "(" + mode.getRefreshRate() + ")");
+            resToReturn.add(mode.getWidth() + "x" + mode.getHeight() + "@" + mode.getBitDepth() + "bit " + "(" + mode.getRefreshRate() + "hz)");
         }
 
         return resToReturn;
     }
-
-    public void show()
-    {
-        showSettings();
-    }
+    
 
     // public BufferStrategy get_BufferStrategy() {
     //     return _strategy;
