@@ -33,9 +33,11 @@ public class GameWindowObject {
     public boolean isReady = false;
 
     List<DisplayMode> displayModes;
+    List<GraphicsDevice> displayDevices;
     public static DisplayMode _displayMode;
-    GraphicsDevice _graphicsDevice;
+    // GraphicsDevice _graphicsDevice;
     GraphicsEnvironment _graphicsEnvironment;
+    ArrayList<String> devicesStrings;
     ArrayList<String> resolutionsStrings;
 
     // GameWindows
@@ -45,7 +47,8 @@ public class GameWindowObject {
 
     // Settings
     JFrame _settingsFrame;
-    JComboBox<String> _resolutionsList;
+    JComboBox<String> _devicesListBox;
+    JComboBox<String> _resolutionsListBox;
     JCheckBox _fullScreenCheckbox;
 
     public GameWindowObject() {
@@ -53,12 +56,13 @@ public class GameWindowObject {
     }
 
     private void createGameWindow() {
-        _graphicsDevice = _graphicsEnvironment.getDefaultScreenDevice();
-        _gameWindow = new JFrame();
+        // _graphicsDevice = _graphicsEnvironment.getDefaultScreenDevice();
+        _gameWindow = new JFrame(Environment.CURRENT_DISPLAY.getDefaultConfiguration());
 
         _gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        _gameWindow.setLocation((_graphicsEnvironment.getMaximumWindowBounds().width - _displayMode.getWidth()) / 2,
-                (_graphicsEnvironment.getMaximumWindowBounds().height - _displayMode.getHeight()) / 2);
+        // _gameWindow.setLocationRelativeTo(null);
+        // _gameWindow.setLocation((_graphicsEnvironment.getMaximumWindowBounds().width - _displayMode.getWidth()) / 2,
+        //         (_graphicsEnvironment.getMaximumWindowBounds().height - _displayMode.getHeight()) / 2);
         _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
 
 		Environment.KEYBOARDHANDLER_CONTINUOUSKEYS = new ArrayList<Integer>();
@@ -89,20 +93,21 @@ public class GameWindowObject {
             }
         });
 
-        if (_fullScreen && _graphicsDevice.isFullScreenSupported()) {
+        _gameWindow.setResizable(false);
+        _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+        if (_fullScreen && Environment.CURRENT_DISPLAY.isFullScreenSupported()) {
             System.out.println("Full screen supported!");
             _gameWindow.setUndecorated(true);
-            _gameWindow.setResizable(false);
-            _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
-            _graphicsDevice.setFullScreenWindow(_gameWindow);
-            _graphicsDevice.setDisplayMode(_displayMode);
+            Environment.CURRENT_DISPLAY.setFullScreenWindow(_gameWindow);
+            Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
             _gameWindow.pack();
-            _gameWindow.validate();
-
         }
+        
+        _gameWindow.validate();
     }
 
-    private void createSettingsFrame(ArrayList<String> resolutionsStrings) {
+    private void createSettingsFrame(ArrayList<String> resolutionsStrings, ArrayList<String> devices) {
         _settingsFrame = new JFrame();
         _settingsFrame.setTitle("Play Settings");
         _settingsFrame.setLayout(new BoxLayout(_settingsFrame.getContentPane(), BoxLayout.Y_AXIS));
@@ -111,12 +116,27 @@ public class GameWindowObject {
         JPanel checkboxPanel = new JPanel();
         JPanel buttonsPanel = new JPanel();
 
-        _resolutionsList = new JComboBox<String>(resolutionsStrings.toArray(new String[0]));
+        _devicesListBox = new JComboBox<String>(devices.toArray(new String[0]));
+        _resolutionsListBox = new JComboBox<String>(resolutionsStrings.toArray(new String[0]));
+        
+        
+        _devicesListBox.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                GraphicsDevice[] devices = _graphicsEnvironment.getScreenDevices();
+
+                _resolutionsListBox.removeAllItems();
+                for(String res : GetResolutionsFromDevice(devices[_devicesListBox.getSelectedIndex()]))
+                {
+                    _resolutionsListBox.addItem(res);
+                }
+            }
+        });
 
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.PAGE_AXIS));
         settingsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         settingsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        settingsPanel.add(_resolutionsList);
+        settingsPanel.add(_devicesListBox);
+        settingsPanel.add(_resolutionsListBox);
 
         _fullScreenCheckbox = new JCheckBox();
         _fullScreenCheckbox.setText("Full Screen Mode");
@@ -137,11 +157,13 @@ public class GameWindowObject {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int selIndex = _resolutionsList.getSelectedIndex();
+                int selectedResolutionIndex = _resolutionsListBox.getSelectedIndex();
+                int selectedDisplayIndex = _devicesListBox.getSelectedIndex();
 
                 _fullScreen = _fullScreenCheckbox.isSelected();
-                _displayMode = displayModes.get(selIndex);
+                _displayMode = displayModes.get(selectedResolutionIndex);
                 Environment.CURRENT_DISPLAYMODE = _displayMode;
+                Environment.CURRENT_DISPLAY = displayDevices.get(selectedDisplayIndex);
 
                 System.out.println("Selected DisplayMode: " + _displayMode.toString());
                 System.out.println("Fullscreen: " + _fullScreen);
@@ -177,26 +199,23 @@ public class GameWindowObject {
         // Recupero i Graphic Devices
         GraphicsDevice[] devices = _graphicsEnvironment.getScreenDevices();
 
+        devicesStrings = new ArrayList<String>();
         resolutionsStrings = new ArrayList<String>();
 
-        displayModes = Arrays.asList(devices[0].getDisplayModes());
+        
+        displayDevices = Arrays.asList(devices);
 
         for (GraphicsDevice graphicsDevice : devices) {
             System.out.println("GDevice found: " + graphicsDevice.toString());
+            devicesStrings.add(graphicsDevice.getIDstring());
         }
-        Collections.sort(displayModes, Comparator.comparing(DisplayMode::getWidth).thenComparing(DisplayMode::getHeight)
-                .thenComparing(DisplayMode::getBitDepth).thenComparing(DisplayMode::getRefreshRate));
 
-        Collections.reverse(displayModes);
-
-        for (DisplayMode mode : displayModes) {
-            resolutionsStrings.add(mode.toString());
-        }
+        resolutionsStrings = GetResolutionsFromDevice(devices[0]);
 
     }
 
     private void showSettings() {
-        createSettingsFrame(resolutionsStrings);
+        createSettingsFrame(resolutionsStrings, devicesStrings);
         _settingsFrame.setVisible(true);
         _settingsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         _settingsFrame.setResizable(false);
@@ -208,6 +227,23 @@ public class GameWindowObject {
         _gameWindow.createBufferStrategy(2);
         _strategy = _gameWindow.getBufferStrategy();
         isReady = true;
+    }
+
+    public ArrayList<String> GetResolutionsFromDevice(GraphicsDevice device)
+    {
+        ArrayList<String> resToReturn = new ArrayList<String>();
+
+        displayModes = Arrays.asList(device.getDisplayModes());
+        Collections.sort(displayModes, Comparator.comparing(DisplayMode::getWidth).thenComparing(DisplayMode::getHeight)
+                .thenComparing(DisplayMode::getBitDepth).thenComparing(DisplayMode::getRefreshRate));
+
+        Collections.reverse(displayModes);
+
+        for (DisplayMode mode : displayModes) {
+            resToReturn.add(mode.getWidth() + "x" + mode.getHeight() + "(" + mode.getRefreshRate() + ")");
+        }
+
+        return resToReturn;
     }
 
     public void show()
