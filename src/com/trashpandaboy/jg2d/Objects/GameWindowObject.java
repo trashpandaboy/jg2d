@@ -115,8 +115,8 @@ public class GameWindowObject {
 
         if (_fullScreen && Environment.CURRENT_DISPLAY.isFullScreenSupported()) {
             System.out.println("Full screen supported!");
-            _gameWindow.setUndecorated(true);
             _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
+            _gameWindow.setUndecorated(true);
             
             // Window main = windows.stream().filter((o)-> o.getClass() == _gameWindow.getClass()).toList().get(0);
             // main.requestFocus();
@@ -132,7 +132,7 @@ public class GameWindowObject {
                 System.out.println("Display Change NOT supported... set manual size");
                 _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
             }
-            _gameWindow.pack();
+            // _gameWindow.pack();
         }
         else if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
         {
@@ -145,9 +145,6 @@ public class GameWindowObject {
             _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
         }
         
-        _gameWindow.validate();
-        _gameWindow.setVisible(true);
-        _gameWindow.requestFocusInWindow();
         if(_gameWindow.isAlwaysOnTopSupported())
         {
             System.out.println("Always on TOP supported!...Goin to set it up...");
@@ -158,6 +155,10 @@ public class GameWindowObject {
         {
             System.out.println("Always on TOP NOT supported...");
         }
+        
+        // _gameWindow.validate();
+        // _gameWindow.requestFocusInWindow();
+        _gameWindow.setVisible(true);
     }
 
     private void createSettingsFrame(ArrayList<String> resolutionsStrings, ArrayList<String> devices) {
