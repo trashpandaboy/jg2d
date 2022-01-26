@@ -2,7 +2,7 @@ package com.trashpandaboy.jg2d.Core.Helpers;
 
 import java.awt.event.KeyEvent;
 
-import com.trashpandaboy.jg2d.World;
+import com.trashpandaboy.jg2d.GameLoop;
 
 public class KeyBoardHandler extends Thread {
 

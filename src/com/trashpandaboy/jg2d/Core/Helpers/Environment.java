@@ -12,4 +12,5 @@ public class Environment {
 	public static DisplayMode CURRENT_DISPLAYMODE;
 	public static GraphicsDevice CURRENT_DISPLAY;
 	public static JFrame CURRENT_GAME_WINDOW;
+	public static Boolean SYSTEM_READY = false;
 }

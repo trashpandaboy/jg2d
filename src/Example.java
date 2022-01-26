@@ -2,7 +2,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import com.trashpandaboy.jg2d.World;
+import com.trashpandaboy.jg2d.GameLoop;
 import com.trashpandaboy.jg2d.Components.Position;
 import com.trashpandaboy.jg2d.Components.SpriteRenderer;
 import com.trashpandaboy.jg2d.Core.Component;
@@ -33,7 +33,7 @@ public class Example {
             Thread.sleep(10);
         } while(!gameWindow.isReady);
 
-        World gameWorld = new World(Environment.CURRENT_GAME_WINDOW.getBufferStrategy());
+        GameLoop gameWorld = new GameLoop(Environment.CURRENT_GAME_WINDOW.getBufferStrategy(), 90);
         gameWorld.AddGameObject(player);
         gameWorld.start();
         

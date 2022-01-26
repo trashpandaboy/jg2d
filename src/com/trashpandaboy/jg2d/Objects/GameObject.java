@@ -7,6 +7,7 @@ import com.trashpandaboy.jg2d.Components.*;
 import com.trashpandaboy.jg2d.Core.*;
 
 public abstract class GameObject {
+
     ArrayList<Component> _components;
 
     public ArrayList<Component> get_components() {
@@ -82,7 +83,6 @@ public abstract class GameObject {
 
     public Boolean CanUpdate()
     {
-        //TODO is it needed?
         return true;    
     }
 }

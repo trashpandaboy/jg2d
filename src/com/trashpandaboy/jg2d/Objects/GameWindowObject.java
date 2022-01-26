@@ -8,6 +8,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.lang.Thread.State;
+import java.security.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -99,11 +101,16 @@ public class GameWindowObject {
 						Environment.KEYBOARDHANDLER_CONTINUOUSKEYS.remove(i);
 					}
 				}
+
+                if(key.getKeyCode() == KeyEvent.VK_F)
+                {
+                    TriggerFullScreen();
+                }
             }
 
             @Override
             public void keyTyped(KeyEvent key) {
-
+                
             }
         });
 
@@ -121,19 +128,10 @@ public class GameWindowObject {
             // main.requestFocus();
 
             Environment.CURRENT_DISPLAY.setFullScreenWindow(_gameWindow);
-            if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
-            {
-                System.out.println("Display Change supported!");
-                Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
-            }
-            else
-            {
-                System.out.println("Display Change NOT supported... set manual size");
-                _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
-            }
             // _gameWindow.pack();
         }
-        else if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
+
+        if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
         {
             System.out.println("Display Change supported!");
             Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
@@ -143,7 +141,7 @@ public class GameWindowObject {
             System.out.println("Display Change NOT supported... set manual size");
             _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
         }
-        
+
         if(_gameWindow.isAlwaysOnTopSupported())
         {
             System.out.println("Always on TOP supported!...Goin to set it up...");
@@ -158,6 +156,7 @@ public class GameWindowObject {
         // _gameWindow.validate();
         // _gameWindow.requestFocusInWindow();
         _gameWindow.setVisible(true);
+        Environment.SYSTEM_READY = true;
     }
 
     private void createSettingsFrame(ArrayList<String> resolutionsStrings, ArrayList<String> devices) {
@@ -303,6 +302,56 @@ public class GameWindowObject {
         }
 
         return resToReturn;
+    }
+
+    void TriggerFullScreen()
+    {
+        System.out.println("Trigger Full Screen called...");
+        if(Environment.CURRENT_DISPLAY.isFullScreenSupported())
+        {
+            Boolean isFullScreen = Environment.CURRENT_DISPLAY.getFullScreenWindow() != null;
+            
+            System.out.println("Fullscreen at call: " + isFullScreen);
+            
+            Environment.SYSTEM_READY = false;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            _gameWindow.dispose();
+            
+            if(!isFullScreen)
+            {
+                //set fullscreen
+                _gameWindow.setUndecorated(true);
+                _gameWindow.setExtendedState(Frame.MAXIMIZED_BOTH);
+                Environment.CURRENT_DISPLAY.setFullScreenWindow(_gameWindow);
+            }
+            else
+            {
+                //set windowed mode
+                _gameWindow.setUndecorated(false);
+                _gameWindow.setExtendedState(Frame.NORMAL);
+                Environment.CURRENT_DISPLAY.setFullScreenWindow(null);
+            }
+
+
+            if(Environment.CURRENT_DISPLAY.isDisplayChangeSupported())
+            {
+                System.out.println("Display Change supported!");
+                Environment.CURRENT_DISPLAY.setDisplayMode(_displayMode);
+            }
+            else
+            {
+                System.out.println("Display Change NOT supported... set manual size");
+                _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
+            }
+
+            _gameWindow.setVisible(true);
+            Environment.SYSTEM_READY = true;
+        }
     }
     
 
