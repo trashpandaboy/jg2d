@@ -9,7 +9,6 @@ import com.trashpandaboy.jg2d.Core.Component;
 import com.trashpandaboy.jg2d.Core.Sprite;
 import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 import com.trashpandaboy.jg2d.Core.Helpers.KeyBoardHandler;
-import com.trashpandaboy.jg2d.Objects.GameObject;
 import com.trashpandaboy.jg2d.Objects.GameWindowObject;
 import com.trashpandaboy.jg2d.Objects.PlayerCharacter;
 

@@ -36,7 +36,7 @@ public class Sprite {
             }
         }
 
-        _spriteImage = GraphicsUtils.ScaleBufferedImage(_spriteImage, scaleFactor);
+        _spriteImage = GraphicsUtils.ScaleBufferedImage(sprite, scaleFactor);
     }
 
     /**
