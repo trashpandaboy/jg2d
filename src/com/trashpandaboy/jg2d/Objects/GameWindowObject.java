@@ -1,20 +1,15 @@
 package com.trashpandaboy.jg2d.Objects;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.awt.image.BufferStrategy;
-import java.lang.Thread.State;
-import java.security.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
 import java.awt.Window;
 
 import javax.swing.BorderFactory;

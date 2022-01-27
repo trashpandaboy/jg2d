@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 import com.trashpandaboy.jg2d.Core.Component;
 import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 
+/**
+ * A Player GameObject who can be moved
+ */
 public class PlayerCharacter extends GameObject {
     
     public int moveOffset = 5;

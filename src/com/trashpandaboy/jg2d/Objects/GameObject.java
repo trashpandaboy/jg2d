@@ -67,6 +67,11 @@ public abstract class GameObject {
         return positionReturn;
     }
 
+    public int GetZ()
+    {
+        return GetPosition().get_z();
+    }
+    
     @Override
     public String toString() {
         return "Components: " + _components.size();

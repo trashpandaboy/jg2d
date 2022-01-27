@@ -1,5 +1,6 @@
 package com.trashpandaboy.jg2d;
 
+import com.trashpandaboy.jg2d.Components.Position;
 import com.trashpandaboy.jg2d.Core.Helpers.Environment;
 import com.trashpandaboy.jg2d.Objects.GameObject;
 
@@ -9,6 +10,8 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GameLoop extends Thread {
     Runtime runtimeApp;
@@ -49,6 +52,7 @@ public class GameLoop extends Thread {
 
     public void AddGameObject(GameObject go) {
         _gameObjects.add(go);
+        _gameObjects.sort(Comparator.comparing(GameObject::GetZ).reversed());
     }
 
     public ArrayList<GameObject> get_gameObjects() {
