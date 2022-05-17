@@ -20,10 +20,16 @@ public class Example {
         GameObject player = new GameObject() {
         };
 
-        Sprite pgSprite = new Sprite(ImageIO.read(new File(imageDir, "tile_0024.png")), 64);
-        PlayerMovement movementHandler = new PlayerMovement(player);
-        SpriteRenderer pgRend = new SpriteRenderer(pgSprite, player);
+        // Sprite pgSprite = new Sprite(ImageIO.read(new File(imageDir, "tile_0024.png")), 64);
+        
+        Sprite pg1 = new Sprite(ImageIO.read(new File(imageDir, "sprite_1.png")), 128);
+        Sprite pg2 = new Sprite(ImageIO.read(new File(imageDir, "sprite_2.png")), 128);
+        Sprite pg3 = new Sprite(ImageIO.read(new File(imageDir, "sprite_3.png")), 128);
+        SpriteRenderer pgRend = new SpriteRenderer(new Sprite[] { pg1, pg2, pg1, pg3}, player);
+        pgRend.SetSpritePerSecond(4);
+
         Position pgPos = new Position(50,50,player);
+        PlayerMovement movementHandler = new PlayerMovement(15,15,player);
 
         player.AddComponent(pgRend);
         player.AddComponent(pgPos);
@@ -39,7 +45,7 @@ public class Example {
         } while(!gameWindow.isReady);
 
         GameLoop gameWorld = new GameLoop(Environment.CURRENT_GAME_WINDOW.getBufferStrategy());
-        gameWorld.SetFPS_CAP(30);
+        // gameWorld.SetFPS_CAP(30);
         gameWorld.AddGameObject(player);
         gameWorld.start();
         
