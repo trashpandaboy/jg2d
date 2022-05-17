@@ -137,19 +137,17 @@ public class GameWindowObject {
             _gameWindow.setSize(_displayMode.getWidth(), _displayMode.getHeight());
         }
 
-        if(_gameWindow.isAlwaysOnTopSupported())
-        {
-            System.out.println("Always on TOP supported!...Goin to set it up...");
-            _gameWindow.setAlwaysOnTop(true);
-            System.out.println("Always on top: " + _gameWindow.isAlwaysOnTop());
-        }        
-        else
-        {
-            System.out.println("Always on TOP NOT supported...");
-        }
+        // if(_gameWindow.isAlwaysOnTopSupported())
+        // {
+        //     System.out.println("Always on TOP supported!...Goin to set it up...");
+        //     _gameWindow.setAlwaysOnTop(true);
+        //     System.out.println("Always on top: " + _gameWindow.isAlwaysOnTop());
+        // }        
+        // else
+        // {
+        //     System.out.println("Always on TOP NOT supported...");
+        // }
         
-        // _gameWindow.validate();
-        // _gameWindow.requestFocusInWindow();
         _gameWindow.setVisible(true);
         Environment.SYSTEM_READY = true;
     }
@@ -285,7 +283,6 @@ public class GameWindowObject {
         ArrayList<String> resToReturn = new ArrayList<String>();
 
         displayModes = Arrays.asList(device.getDisplayModes());
-        // displayModes = displayModes.stream().filter((o) -> o.() == true).toList();
 
         Collections.sort(displayModes, Comparator.comparing(DisplayMode::getWidth).thenComparing(DisplayMode::getHeight)
                 .thenComparing(DisplayMode::getBitDepth).thenComparing(DisplayMode::getRefreshRate));

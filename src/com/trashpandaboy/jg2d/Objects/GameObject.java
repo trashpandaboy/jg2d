@@ -77,17 +77,19 @@ public abstract class GameObject {
         return "Components: " + _components.size();
     }
 
-    public void Update() {
-        if(CanUpdate())
-        {
-            for (Component component : _components) {
-                component.Update();
-            }
+    public void FrameUpdate() {
+        for(int i = 0; i < _components.size(); i++){
+            _components.get(i).FrameUpdate();
         }
     }
 
-    public Boolean CanUpdate()
+    public void DelayedUpdate()
     {
-        return true;    
+        for(int i = 0; i < _components.size(); i++){
+            if(_components.get(i).IsDelayedPassed())
+            {
+                _components.get(i).DelayedUpdate();
+            }
+        }
     }
 }

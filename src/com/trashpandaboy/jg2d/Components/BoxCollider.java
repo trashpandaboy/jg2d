@@ -1,6 +1,7 @@
 package com.trashpandaboy.jg2d.Components;
 
 import com.trashpandaboy.jg2d.Core.Component;
+import com.trashpandaboy.jg2d.Objects.GameObject;
 
 /**
  * A Component that represent a collider shaped as Box
@@ -88,15 +89,16 @@ public class BoxCollider extends Component {
      * @param width Width size 
      * @param height Height size
      */
-    public BoxCollider(int x, int y, int width, int height) {
+    public BoxCollider(int x, int y, int width, int height, GameObject parent) {
         _x = x;
         _y = y;
         _width = width;
         _height = height;
+        super.parent = parent;
     }
 
     @Override
-    public void Update() {
+    public void FrameUpdate() {
     }
 
 }

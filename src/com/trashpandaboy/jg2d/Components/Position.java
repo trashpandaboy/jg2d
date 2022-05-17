@@ -1,6 +1,7 @@
 package com.trashpandaboy.jg2d.Components;
 
 import com.trashpandaboy.jg2d.Core.Component;
+import com.trashpandaboy.jg2d.Objects.GameObject;
 
 /**
  * 
@@ -128,10 +129,11 @@ public class Position extends Component {
      * @param x X value
      * @param y Y value
      */
-    public Position(int x, int y) {
+    public Position(int x, int y, GameObject parent) {
         _x = x;
         _y = y;
         _z = 0;
+        super.parent = parent;
     }
 
     /**
@@ -141,10 +143,11 @@ public class Position extends Component {
      * @param y Y value
      * @param z Z value
      */
-    public Position(int x, int y, int z) {
+    public Position(int x, int y, int z, GameObject parent) {
         _x = x;
         _y = y;
         _z = z;
+        super.parent = parent;
     }
 
     /**
@@ -152,7 +155,7 @@ public class Position extends Component {
      * 
      */
     @Override
-    public void Update() {
+    public void FrameUpdate() {
     }
 
     /**

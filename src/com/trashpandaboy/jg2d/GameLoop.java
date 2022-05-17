@@ -9,9 +9,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
+
+import javax.lang.model.util.ElementScanner6;
 
 public class GameLoop extends Thread {
     Runtime runtimeApp;
@@ -20,16 +23,25 @@ public class GameLoop extends Thread {
     double minFPSUpdate = 1;
     double lastFPSUpdate = 0;
 
-    int _maxFPS = 120;
+    int FPS_CAP = 0;
 
-    int minDrawDelay() {
-        return Math.round(1000 / _maxFPS);
+    public void SetFPS_CAP(int cap)
+    {
+        FPS_CAP = cap;
+    }
+
+    long minDrawDelayInNanoseconds() {
+        if(FPS_CAP != 0)
+            return TimeUnit.MILLISECONDS.toNanos(Math.round(1000 / FPS_CAP));
+        else
+            return TimeUnit.MILLISECONDS.toNanos(Math.round(1000 / Environment.FPS_CAP));
     } 
 
     long lastDrawMoment = -1;
+    long waitTimeNanoseconds = 0;
     public long deltaTime()
     {
-        return System.currentTimeMillis() - lastDrawMoment;
+        return System.nanoTime() - lastDrawMoment;
     }
 
     BufferStrategy _strategy;
@@ -39,14 +51,12 @@ public class GameLoop extends Thread {
 
     public static ArrayList<GameObject> _gameObjects;
 
-    public GameLoop(BufferStrategy strategy, int maxFps) {
+    public GameLoop(BufferStrategy strategy) {
         _strategy = strategy;
-        _maxFPS = maxFps;
         _gameObjects = new ArrayList<GameObject>();
     }
 
-    public GameLoop(int maxFps) {
-        _maxFPS = maxFps;
+    public GameLoop() {
         _gameObjects = new ArrayList<GameObject>();
     }
 
@@ -63,38 +73,16 @@ public class GameLoop extends Thread {
     public void run() {
         runtimeApp = Runtime.getRuntime();
         try {
-            lastDrawMoment = System.currentTimeMillis();
             while (true) {
                 if(Environment.SYSTEM_READY)
                 {
-
                     CheckForKeyboard();
-                    UpdateGameobjects();
-                    do {
-                        do {
-                            gameFrame = (Graphics2D) _strategy.getDrawGraphics();
-                            gameFrame.setRenderingHints(rh);
-                            
-                            drawFrame();
-                            drawDeubg();
-                            gameFrame.dispose();
-                            
-                            long waitTime = System.currentTimeMillis() - lastDrawMoment;
-                            if(waitTime < minDrawDelay())
-                            {
-                                waitTime = minDrawDelay() - waitTime;
-                            }
-                            else
-                            {
-                                waitTime = minDrawDelay();
-                            }
-                            lastDrawMoment = System.currentTimeMillis();
-                            Thread.sleep(waitTime);
-                            
-                        } while (_strategy.contentsRestored());
-                        _strategy.show();
-                        
-                    } while (_strategy.contentsLost());    
+                    DelayedUpdateGameobjects();
+                    if(canDrawNewFrame())
+                    {
+                        drawNewFrame();
+                    }
+                    Thread.sleep(1);
                 }
                 else //wait for system to be ready to draw
                 {
@@ -103,6 +91,50 @@ public class GameLoop extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void drawNewFrame() {
+        FrameUpdateGameobjects();
+        do {
+            do {
+                gameFrame = (Graphics2D) _strategy.getDrawGraphics();
+                gameFrame.setRenderingHints(rh);
+                
+                drawFrame();
+                drawDeubg();
+                gameFrame.dispose();
+                
+                long nowNanoTime = System.nanoTime();
+                waitTimeNanoseconds = nowNanoTime - lastDrawMoment;
+                lastDrawMoment = nowNanoTime;
+                if(waitTimeNanoseconds < minDrawDelayInNanoseconds())
+                {
+                    waitTimeNanoseconds = minDrawDelayInNanoseconds() - lastDrawMoment;
+                }
+                else
+                {
+                    waitTimeNanoseconds = minDrawDelayInNanoseconds();
+                }
+                
+            } while (_strategy.contentsRestored());
+            _strategy.show();
+            
+        } while (_strategy.contentsLost());
+    }
+
+    private boolean canDrawNewFrame() {
+        if(lastDrawMoment <= 0)
+        {  
+            return true;
+        }
+        else if(System.nanoTime() > (lastDrawMoment + waitTimeNanoseconds))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -115,12 +147,15 @@ public class GameLoop extends Thread {
         
     }
 
-    private void UpdateGameobjects() {
-        for (GameObject gameObject : _gameObjects) {
-            if(gameObject.CanUpdate())
-            {
-                gameObject.Update();
-            }
+    private void FrameUpdateGameobjects() {
+        for(int i=0; i < _gameObjects.size(); i++) {
+            _gameObjects.get(i).FrameUpdate();
+        }
+    }
+
+    private void DelayedUpdateGameobjects() {
+        for(int i=0; i < _gameObjects.size(); i++) {
+            _gameObjects.get(i).DelayedUpdate();
         }
     }
 
@@ -128,8 +163,10 @@ public class GameLoop extends Thread {
     {
         gameFrame.fillRect(0,0, Environment.CURRENT_DISPLAYMODE.getWidth(), Environment.CURRENT_DISPLAYMODE.getHeight());
 
-        for (GameObject gameObject : _gameObjects) {
-            gameFrame.drawImage(gameObject.GetSprite().get_spriteImage(), null, gameObject.GetPosition().get_x(), gameObject.GetPosition().get_y());
+        for(int i=0; i<_gameObjects.size(); i++){
+            BufferedImage imageGO = _gameObjects.get(i).GetSprite().get_spriteImage();
+            Position positionGO = _gameObjects.get(i).GetPosition();
+            gameFrame.drawImage(imageGO, null, positionGO.get_x(), positionGO.get_y());
         }
     }
 
@@ -156,13 +193,13 @@ public class GameLoop extends Thread {
 
     private long getLastFrameLenght()
     {
-        return System.currentTimeMillis() - lastDrawMoment;
+        return TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - lastDrawMoment);
     }
 
     private int getFPS() {
         double FPS = 0;
     
-        FPS = 1000 / getLastFrameLenght();
+        FPS = (1000000 * 1000) / waitTimeNanoseconds;
             
         return (int)FPS;
     }
