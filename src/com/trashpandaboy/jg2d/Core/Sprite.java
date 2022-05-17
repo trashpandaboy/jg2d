@@ -24,15 +24,18 @@ public class Sprite {
     {
         double scaleFactor = 1.0d;
         
-        if(sprite.getWidth() != sprite.getHeight())
+        int width = sprite.getWidth();
+        int height = sprite.getHeight();
+
+        if(width <= fitSize || height <= fitSize)
         {
-            if(sprite.getWidth() > sprite.getHeight())
+            if(width > height)
             {
-                scaleFactor = (double)fitSize / (double)sprite.getWidth();
+                scaleFactor = (double) fitSize / width;
             }
             else
             {
-                scaleFactor = (double)fitSize / (double)sprite.getHeight();
+                scaleFactor = (double) fitSize / height;
             }
         }
 
