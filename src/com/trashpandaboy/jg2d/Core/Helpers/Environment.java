@@ -11,7 +11,10 @@ import javax.swing.JFrame;
  * 
  */
 public class Environment {
-	/**
+	public static final long CURRENT_DELAY = 20;
+
+    public static final int FPS_CAP = 120;
+    /**
 	 * Currently pressed Keys
 	 */
 	public static List<Integer> KEYBOARDHANDLER_CONTINUOUSKEYS;
