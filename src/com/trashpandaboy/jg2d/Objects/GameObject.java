@@ -1,6 +1,7 @@
 package com.trashpandaboy.jg2d.Objects;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import com.trashpandaboy.jg2d.Components.*;
@@ -67,29 +68,27 @@ public abstract class GameObject {
         return positionReturn;
     }
 
-    public int GetZ()
-    {
+    public int GetZ() {
         return GetPosition().get_z();
     }
-    
+
     @Override
     public String toString() {
         return "Components: " + _components.size();
     }
 
     public void FrameUpdate() {
-        for(int i = 0; i < _components.size(); i++){
+        for (int i = 0; i < _components.size(); i++) {
             _components.get(i).FrameUpdate();
         }
     }
 
-    public void DelayedUpdate()
-    {
-        for(int i = 0; i < _components.size(); i++){
-            if(_components.get(i).IsDelayedPassed())
-            {
+    public void DelayedUpdate() {
+        for (int i = 0; i < _components.size(); i++) {
+            if (_components.get(i).IsDelayedPassed()) {
                 _components.get(i).DelayedUpdate();
             }
         }
     }
+
 }
